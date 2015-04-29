@@ -1,5 +1,4 @@
 #include "SFAsset.h"
-#include <SDL2/SDL_ttf.h> //sdl font library
 
 int SFAsset::SFASSETID=0;
 

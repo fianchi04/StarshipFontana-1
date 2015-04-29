@@ -15,13 +15,16 @@ using namespace std;
 #include "SFWindow.h"
 #include "SFBoundingBox.h"
 
+#include "SFAsset.h"
+#include "SFApp.h"
+
 /**
  * We could create SFPlayer, SFProjectile and SFAsset which are subclasses
  * of SFAsset.  However, I've made an implementation decision to use this
  * enum to mark the type of the SFAsset.  If we add more asset types then
  * the subclassing strategy becomes a better option.
  */
-enum SFASSETTYPE {SFASSET_DEAD, SFASSET_PLAYER, SFASSET_PROJECTILE, SFASSET_ALIEN, SFASSET_COIN};
+enum SFASSETTYPE {SFASSET_DEAD, SFASSET_PLAYER, SFASSET_PROJECTILE, SFASSET_ALIEN, SFASSET_COIN,  SFASSET_WALL, SFASSET_BARRICADE};
 
 class SFAsset {
 public:
@@ -29,16 +32,23 @@ public:
   SFAsset(const SFAsset&);
   virtual ~SFAsset();
 
-  virtual void      SetPosition(Point2 &);
+  virtual void      SetPosition(Point2&);
   virtual Point2    GetPosition();
   virtual SFAssetId GetId();
   virtual void      OnRender();
   virtual void      GoEast();
   virtual void      GoWest();
   virtual void      GoNorth();
+  virtual void      GoSouth(float speed);
   virtual void      SetNotAlive();
   virtual bool      IsAlive();
   virtual void      HandleCollision();
+  virtual void      GameOver();
+  virtual void      InvasionChecker();
+
+  int invasion;
+  int alien_death;
+  int bonus;
 
   virtual bool                      CollidesWith(shared_ptr<SFAsset>);
   virtual shared_ptr<SFBoundingBox> GetBoundingBox();
@@ -54,6 +64,7 @@ private:
   std::shared_ptr<SFWindow>   sf_window;
 
   static int SFASSETID;
+
 };
 
 #endif
