@@ -31,6 +31,8 @@ public:
   void StartOver();
   bool wall_check;
   void Healthbar();
+  void StartScreen();
+
 
 
 private:
@@ -53,6 +55,7 @@ private:
 
   shared_ptr<SFAsset>        player;
   shared_ptr<SFAsset>	     gameover;
+  shared_ptr<SFAsset>	     start;
   shared_ptr<SFBoundingBox>  app_box;
   list<shared_ptr<SFAsset> > projectiles;
   list<shared_ptr<SFAsset> > aliens;
@@ -69,6 +72,8 @@ int val;
 int alien_death;
 bool GO;
 int health;
+bool BEGIN;
+int valb;
 
 //declare digits for score display
 SDL_Texture		* d0;

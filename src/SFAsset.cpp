@@ -27,6 +27,9 @@ SFAsset::SFAsset(SFASSETTYPE type, std::shared_ptr<SFWindow> window): type(type)
   case SFASSET_GAMEOVER:
     sprite = IMG_LoadTexture(sf_window->getRenderer(), "assets/gameover.png");
     break;
+  case SFASSET_START:
+    sprite = IMG_LoadTexture(sf_window->getRenderer(), "assets/start.png");
+    break;
   }
 
   if(!sprite) {

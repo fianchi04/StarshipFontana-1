@@ -31,6 +31,9 @@ SFEvent::SFEvent(const SDL_Event & event) {
     case SDLK_q:
       code = SFEVENT_QUIT;
       break;
+    case SDLK_a:
+      code = SFEVENT_START;
+      break;
     case SDLK_x:  //add key input to drop bonus power: barricades/traps
       code = SFEVENT_BARRICADE;
      break;

@@ -21,6 +21,7 @@ SFApp::SFApp(std::shared_ptr<SFWindow> window) : fire(0), is_running(true), sf_w
  	 }
 
 
+
 //load textures for images for score display
 d0 = IMG_LoadTexture(sf_window->getRenderer(), "assets/0.png");
 d1 = IMG_LoadTexture(sf_window->getRenderer(), "assets/1.png");
@@ -110,6 +111,9 @@ void SFApp::OnEvent(SFEvent& event) {
   case SFEVENT_STARTOVER: //code for restarting the game (from game over screen)
    StartOver();
     break;
+  case SFEVENT_START: //code for starting the game
+   BEGIN = false;
+    break;
 
   case SFEVENT_PLAYER_LEFT_UP:
    left = false;
@@ -174,7 +178,19 @@ player ->HandleCollision();
 }
 	
 
+void SFApp::StartScreen(){
+//Start screen interface
+	
+	cout<< "Welcome" << endl;
+	
+	//render the start screen image
+    start = make_shared<SFAsset>(SFASSET_START, sf_window);
+    auto pos   = Point2(320, 240);
+    start->SetPosition(pos);
 
+    if (!BEGIN){StartOver();}
+	
+}
 
 
 
@@ -203,7 +219,8 @@ int SFApp::OnExecute() {
   alien_death = 00000;
   wall_check = false;
   GO = false;
-
+  BEGIN= true; 
+  StartScreen();//initiate start screen image first
   while (SDL_WaitEvent(&event) && is_running) {
     // if this is an update event, then handle it in SFApp,
     // otherwise punt it to the SFEventDispacher.
@@ -448,6 +465,9 @@ void SFApp::OnRender() {
   
    if (GO){ //render the gameover image screen last so that it will be on top of the sprites, this saves having to 'kill' all the sprites on screen during game over
   gameover->OnRender();}
+
+  if(BEGIN){
+  start->OnRender();}
 
   ScoreDisplay();
   Healthbar();
