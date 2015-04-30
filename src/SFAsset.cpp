@@ -25,6 +25,9 @@ SFAsset::SFAsset(SFASSETTYPE type, std::shared_ptr<SFWindow> window): type(type)
   case SFASSET_BARRICADE:
     sprite = IMG_LoadTexture(sf_window->getRenderer(), "assets/twall.jpg");
     break;
+  case SFASSET_GAMEOVER:
+    sprite = IMG_LoadTexture(sf_window->getRenderer(), "assets/gameover.png");
+    break;
   }
 
   if(!sprite) {
@@ -212,10 +215,10 @@ shared_ptr<SFBoundingBox> SFAsset::GetBoundingBox() {
 
 
 //void to 'end' the game under certain conditions
-void SFAsset::GameOver(){
+/*void SFAsset::GameOver(){
 	cout<< "Game Over" << endl;
-	cout<< invasion << endl;
-	}
+	cout<< invasion << endl;*/ //moved to SFApp
+	//}
 
 
 
@@ -223,8 +226,8 @@ void SFAsset::GameOver(){
 
 //method to see if 'the aliens have invaded'
 void SFAsset::InvasionChecker(){
-	if (invasion>= 15){
-	GameOver();}
+	//if (invasion>= 15){
+	//GameOver();}
 }
 
 void SFAsset::SetNotAlive() {

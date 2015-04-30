@@ -26,9 +26,10 @@ public:
   int     OnExecute();
   void    OnUpdateWorld();
   void    OnRender();
-
+  void    GameOver();
   void    FireProjectile();
   void BarricadeDrop();
+  void StartOver();
   bool wall_check;
 private:
   bool up = false, down = false, left = false, right = false;
@@ -45,6 +46,7 @@ private:
   shared_ptr<SFWindow>       sf_window;
 
   shared_ptr<SFAsset>        player;
+  shared_ptr<SFAsset>	     gameover;
   shared_ptr<SFBoundingBox>  app_box;
   list<shared_ptr<SFAsset> > projectiles;
   list<shared_ptr<SFAsset> > aliens;
@@ -59,6 +61,7 @@ int aliens_alive;
 int bonus;
 int val;
 int alien_death;
+bool GO;
 
 
 

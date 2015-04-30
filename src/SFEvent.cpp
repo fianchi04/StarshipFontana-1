@@ -31,10 +31,15 @@ SFEvent::SFEvent(const SDL_Event & event) {
     case SDLK_q:
       code = SFEVENT_QUIT;
       break;
-    case SDLK_x:
+    case SDLK_x:  //add key input to drop bonus power: barricades/traps
       code = SFEVENT_BARRICADE;
+     break;
+    case SDLK_f: //add key input to start over on game over screen
+      code = SFEVENT_STARTOVER;
+	break;
     }
-    break;
+	break;
+  
   case SDL_KEYUP: //what key has been released
     switch (event.key.keysym.sym) {
     case SDLK_LEFT:
