@@ -28,6 +28,7 @@ public:
   void    OnRender();
   void    GameOver();
   void    FireProjectile();
+  void 	  ScoreDisplay();
   void BarricadeDrop();
   void StartOver();
   bool wall_check;
@@ -37,6 +38,8 @@ private:
 //background
   SDL_Texture		* background;
   SDL_Rect back;
+  //score display
+  SDL_Rect 		score_display;
 
 //score counter
   SDL_Texture		* font_image_score;
@@ -62,6 +65,18 @@ int bonus;
 int val;
 int alien_death;
 bool GO;
+//declare digits for score display
+SDL_Texture		* d0;
+SDL_Texture		* d1;
+SDL_Texture		* d2;
+SDL_Texture		* d3;
+SDL_Texture		* d4;
+SDL_Texture		* d5;
+SDL_Texture		* d6;
+SDL_Texture		* d7;
+SDL_Texture		* d8;
+SDL_Texture		* d9;
+
 
 
 

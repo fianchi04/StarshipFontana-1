@@ -19,7 +19,22 @@ SFApp::SFApp(std::shared_ptr<SFWindow> window) : fire(0), is_running(true), sf_w
     aliens.push_back(alien);
 
  	 }
+//load textures for images for score display
 
+d0 = IMG_LoadTexture(sf_window->getRenderer(), "assets/0.png");
+d1 = IMG_LoadTexture(sf_window->getRenderer(), "assets/1.png");
+d2 = IMG_LoadTexture(sf_window->getRenderer(), "assets/2.png");
+d3 = IMG_LoadTexture(sf_window->getRenderer(), "assets/3.png");
+d4 = IMG_LoadTexture(sf_window->getRenderer(), "assets/4.png");
+d5 = IMG_LoadTexture(sf_window->getRenderer(), "assets/5.png");
+d6 = IMG_LoadTexture(sf_window->getRenderer(), "assets/6.png");
+d7 = IMG_LoadTexture(sf_window->getRenderer(), "assets/7.png");
+d8 = IMG_LoadTexture(sf_window->getRenderer(), "assets/8.png");
+d9 = IMG_LoadTexture(sf_window->getRenderer(), "assets/9.png");
+score_display.w = 30;
+score_display.h = 60;
+score_display.x = 265;
+score_display.y = 10;
 
   int val = 0;
 int alien_death;
@@ -140,13 +155,13 @@ void SFApp::OnEvent(SFEvent& event) {
 void SFApp::StartOver(){ //on start up reset counters to 0 and reset player positions
 	GO = false;
 //kill everything on screen
-for (auto a :: aliens){
+for (auto a : aliens){
 a->HandleCollision();}
-for (auto p :: projectiles){
+for (auto p : projectiles){
 p->HandleCollision();}
-for (auto b :: barricades){
+for (auto b : barricades){
 b->HandleCollision();}
-for (auto c :: coins){
+for (auto c : coins){
 c->HandleCollision();}
 player ->HandleCollision();
 
@@ -423,6 +438,7 @@ void SFApp::OnRender() {
   w->OnRender();
   }
   
+  
  
 
    //render game over screen when needed
@@ -447,12 +463,61 @@ void SFApp::OnRender() {
    if (GO){ //render the gameover image screen last so that it will be on top of the sprites, this saves having to 'kill' all the sprites on screen during game over
   gameover->OnRender();}
 
+  ScoreDisplay();
+
   // Switch the off-screen buffer to be on-screen
   SDL_RenderPresent(sf_window->getRenderer());
 }
 
 
+void SFApp::ScoreDisplay() {
 
+	int tmp = 0;
+
+	string dig = std::to_string(alien_death);
+	for(int i = 0; i <5 ; i++({
+		if (dig.length() - 1 < 4- i){
+			SDL_RenderCopy(sf_window->getRenderer(), d0, NULL, &score_display);
+			tmp++;
+		}		 
+		else if(dig.length()>0){
+			switch(dig.at(i - tmp)){
+				case '0' : 
+					SDL_RenderCopy(sf_window->getRenderer(), d0, NULL, &score_display);
+					break;
+				case '1' : 
+					SDL_RenderCopy(sf_window->getRenderer(), d1, NULL, &score_display);
+					break;
+				case '2' : 
+					SDL_RenderCopy(sf_window->getRenderer(), d2, NULL, &score_display);
+					break;
+				case '3' : 
+					SDL_RenderCopy(sf_window->getRenderer(), d3, NULL, &score_display);
+					break;
+				case '4' : 
+					SDL_RenderCopy(sf_window->getRenderer(), d4, NULL, &score_display);
+					break;
+				case '5' : 
+					SDL_RenderCopy(sf_window->getRenderer(), d5, NULL, &score_display);
+					break;
+				case '6' : 
+					SDL_RenderCopy(sf_window->getRenderer(), d6, NULL, &score_display);
+					break;
+				case '7' : 
+					SDL_RenderCopy(sf_window->getRenderer(), d7, NULL, &score_display);
+					break;
+				case '8' : 
+					SDL_RenderCopy(sf_window->getRenderer(), d8, NULL, &score_display);
+					break;
+				case '9' : 
+					SDL_RenderCopy(sf_window->getRenderer(), d9, NULL, &score_display);
+					break;
+			}		
+		}
+		score_display.x += 30;
+	}
+	score_display.x = 265;
+}
 
 
 //allow player to drop barricade power ups
