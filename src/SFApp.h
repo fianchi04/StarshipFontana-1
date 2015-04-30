@@ -57,6 +57,8 @@ float speed;
 int number_of_aliens;
 int aliens_alive;
 int bonus;
+int val;
+int alien_death;
 
 
 

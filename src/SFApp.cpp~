@@ -17,7 +17,12 @@ SFApp::SFApp(std::shared_ptr<SFWindow> window) : fire(0), is_running(true), sf_w
     auto pos   = Point2((canvas_w/number_of_aliens) * i, 400.0f);
     alien->SetPosition(pos);
     aliens.push_back(alien);
-  }
+
+ 	 }
+
+
+  int val = 0;
+int alien_death;
   
   //check that wall spawn works
 /*
@@ -40,7 +45,7 @@ SFApp::SFApp(std::shared_ptr<SFWindow> window) : fire(0), is_running(true), sf_w
     		barricade->SetPosition(pos);
     		barricades.push_back(barricade);
     		cout << "test" << endl;*/
-  	}
+  	//}
   
   
 
@@ -122,7 +127,7 @@ void SFApp::OnEvent(SFEvent& event) {
     break;
 
   case SFEVENT_BARRICADE:
-    if ((bonus- 300)/25 > 3){
+    if ((bonus- 300)/25 > 3){ //drop a barricade if player has collected enough coins
     BarricadeDrop();
     bonus = bonus -50;}
     break;
@@ -145,7 +150,7 @@ int SFApp::OnExecute() {
     OnEvent(sfevent);
  }
   int invasion = 0;
-  int alien_death = 0;
+  alien_death = 0;
   int bonus = 0;
   bool wall_check = false;
 }
@@ -282,6 +287,19 @@ void SFApp::OnUpdateWorld() {
 	   alien_death++;}
     	   }
    }
+
+  //detect aliens colliding with walls
+  for (auto w : walls){
+   for (auto a: aliens){
+	if(a->CollidesWith(w)){
+		val = rand () % -1, 2;
+		if (val == 0){a->GoEast();}
+		if (val == 1){a->GoWest();}
+		}
+	}
+}
+
+	  
     
   //detect aliens colliding with aliens (game over)
     for (auto a : aliens){
