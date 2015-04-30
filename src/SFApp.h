@@ -76,6 +76,7 @@ int health;
 bool BEGIN;
 int valb;
 
+
 //declare digits for score display
 SDL_Texture		* d0;
 SDL_Texture		* d1;

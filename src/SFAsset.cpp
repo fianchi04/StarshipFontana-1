@@ -22,7 +22,7 @@ SFAsset::SFAsset(SFASSETTYPE type, std::shared_ptr<SFWindow> window): type(type)
     sprite = IMG_LoadTexture(sf_window->getRenderer(), "assets/twall.jpg");
     break;
   case SFASSET_BARRICADE:
-    sprite = IMG_LoadTexture(sf_window->getRenderer(), "assets/twall.jpg");
+    sprite = IMG_LoadTexture(sf_window->getRenderer(), "assets/barricade.png");
     break;
   case SFASSET_GAMEOVER:
     sprite = IMG_LoadTexture(sf_window->getRenderer(), "assets/gameover.png");
@@ -33,6 +33,7 @@ SFAsset::SFAsset(SFASSETTYPE type, std::shared_ptr<SFWindow> window): type(type)
   case SFASSET_NLIFE:
    sprite = IMG_LoadTexture(sf_window->getRenderer(), "assets/health.png");
     break;
+
   }
 
   if(!sprite) {
@@ -180,15 +181,11 @@ void SFAsset::GoSouth(float speed) {
    
 
 //window boundaries
-if(!( c.getY() <0) || (SFASSET_PLAYER != type) ) {
+if(!( c.getY() <0) || (SFASSET_PLAYER != type)) {
       bbox->centre.reset();
       bbox->centre = make_shared<Vector2>(c);}
 //code to kill anything below southern border      
 if(c.getY()<0 && SFASSET_PLAYER!= type){
-	//code to see if aliens have invaded
-	if (c.getY()<=0 && SFASSET_ALIEN== type){
-		
-	}
 	SetNotAlive();
 }	
    

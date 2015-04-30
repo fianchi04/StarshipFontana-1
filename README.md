@@ -33,9 +33,10 @@ from the top-level directory.  The game will expect to find the
 I think the SDL port has introduced some bounding box collision issues.
 
 ## Credits ##
-The sprites in this game come directly from 
+The player, alien, projectile and coin sprites in this game come directly from 
 [SpriteLib](http://www.widgetworx.com/widgetworx/portfolio/spritelib.html) and are used
 under the terms of the [CPL 1.0](http://opensource.org/licenses/cpl1.0.php).
+All other images used were created by Anna Wilde.
 
 
 The event system is based on [Libsigc++](http://libsigc.sourceforge.net/)

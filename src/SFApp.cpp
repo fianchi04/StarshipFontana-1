@@ -144,6 +144,7 @@ void SFApp::OnEvent(SFEvent& event) {
 
 void SFApp::StartOver(){ //on start up reset counters to 0 and reset player positions
 	GO = false;
+	
 //kill everything on screen
 for (auto a : aliens){
 	a->HandleCollision();}
@@ -177,6 +178,7 @@ player ->HandleCollision();
   val = 0;
   alien_death = 000000;
   valb = 0;
+  bonus = 0;
 }
 	
 
@@ -278,7 +280,6 @@ void SFApp::OnUpdateWorld() {
   }
 
 
-
   // Update projectile positions
   for(auto p: projectiles) {
     p->GoNorth();
@@ -296,7 +297,7 @@ void SFApp::OnUpdateWorld() {
 
   // Update enemy positions
   for(auto a : aliens) {
-    a->GoSouth(rand()%2); //aliens moving south at different speeds
+    a->GoSouth(rand()%3); //aliens moving south at different speeds
   }
 
   // Detect collisions aliens with projectiles
@@ -386,7 +387,7 @@ void SFApp::OnUpdateWorld() {
   for (auto w : walls){
    for (auto a: aliens){
 	if(a->CollidesWith(w)){
-		val = rand () % -1, 2;
+		val = rand () % 2 + -1;
 		if (val == 0){a->GoEast();}
 		if (val == 1){a->GoWest();}
 		}
@@ -443,6 +444,8 @@ list<shared_ptr<SFAsset>> tmpc;
   	    }
     barricades.clear();
     barricades = list<shared_ptr<SFAsset>>(tmpc);
+
+
 }
 
 
@@ -489,7 +492,10 @@ void SFApp::OnRender() {
   for (auto b: barricades){
   if(b->IsAlive()){b-> OnRender();}
   }
+
+   
   
+
    if (GO){ //render the gameover image screen last so that it will be on top of the sprites, this saves having to 'kill' all the sprites on screen during game over
   gameover->OnRender();}
 
@@ -498,6 +504,7 @@ void SFApp::OnRender() {
 
   ScoreDisplay();
   Healthbar();
+
 
   // Switch the off-screen buffer to be on-screen
   SDL_RenderPresent(sf_window->getRenderer());
@@ -567,8 +574,7 @@ void SFApp::ScoreDisplay() {
 
 
 //allow player to drop barricade power ups
-void SFApp::BarricadeDrop() { //int y is bonus points collected
-  //int times = y/30;
+void SFApp::BarricadeDrop() { 
   auto bd = make_shared<SFAsset>(SFASSET_BARRICADE, sf_window);
   auto x  = player->GetPosition();
   bd->SetPosition(x);
