@@ -1,15 +1,16 @@
 #include "SFApp.h"
 #include "SFAsset.h"
-#include <SDL2/SDL_ttf.h>
 SFApp::SFApp(std::shared_ptr<SFWindow> window) : fire(0), is_running(true), sf_window(window) {
   int canvas_w, canvas_h;
   SDL_GetRendererOutputSize(sf_window->getRenderer(), &canvas_w, &canvas_h);
 
+
   app_box = make_shared<SFBoundingBox>(Vector2(canvas_w, canvas_h), canvas_w, canvas_h);
   player  = make_shared<SFAsset>(SFASSET_PLAYER, sf_window);
-  auto player_pos = Point2(canvas_w, 88.0f);
+  auto player_pos = Point2(canvas_w, 88.0f); //add the player to the screen
   player->SetPosition(player_pos);
 
+   //render first ten aliens on screen
   const int number_of_aliens = 10;
   for(int i=0; i<number_of_aliens; i++) {
     // place an alien at width/number_of_aliens * i
@@ -17,10 +18,10 @@ SFApp::SFApp(std::shared_ptr<SFWindow> window) : fire(0), is_running(true), sf_w
     auto pos   = Point2((canvas_w/number_of_aliens) * i, 400.0f);
     alien->SetPosition(pos);
     aliens.push_back(alien);
-
  	 }
-//load textures for images for score display
 
+
+//load textures for images for score display
 d0 = IMG_LoadTexture(sf_window->getRenderer(), "assets/0.png");
 d1 = IMG_LoadTexture(sf_window->getRenderer(), "assets/1.png");
 d2 = IMG_LoadTexture(sf_window->getRenderer(), "assets/2.png");
@@ -31,17 +32,17 @@ d6 = IMG_LoadTexture(sf_window->getRenderer(), "assets/6.png");
 d7 = IMG_LoadTexture(sf_window->getRenderer(), "assets/7.png");
 d8 = IMG_LoadTexture(sf_window->getRenderer(), "assets/8.png");
 d9 = IMG_LoadTexture(sf_window->getRenderer(), "assets/9.png");
-score_display.w = 30;
+score_display.w = 30; //set score display dimension and coordinates
 score_display.h = 60;
 score_display.x = 265;
 score_display.y = 10;
 
   int val = 0;
-int alien_death;
+alien_death = 00000; //counter for how many aliens killed by player
   
-  //check that wall spawn works
-
  
+
+ //place five blocks/walls
   	for(int i=0; i<5; i++) {
    	 // place a wall at 100 * i
    		 auto wall = make_shared<SFAsset>(SFASSET_WALL, sf_window);
@@ -49,30 +50,6 @@ int alien_death;
     		wall->SetPosition(pos);
     		walls.push_back(wall);
   	}
-
-  	
-  	
-//check that barricades are visible
-	/*for(int i=0; i<5; i++) {
-   	 // place a barricade at 30 * i
-   		 auto barricade = make_shared<SFAsset>(SFASSET_BARRICADE, sf_window);
-    		auto pos   = Point2((50) * i, 50.0f);
-    		barricade->SetPosition(pos);
-    		barricades.push_back(barricade);
-    		cout << "test" << endl;*/
-  	//}
-  
-  
-
-//this code makes a coin and making point 2 (x and y coordinate), and putting it in that place (pos)
-/*
-  auto coin = make_shared<SFAsset>(SFASSET_COIN, sf_window);
-  auto pos  = Point2((canvas_w/4), 100);
-  coin->SetPosition(pos);
-  coins.push_back(coin);
-  //push back is adding it to a list/array of coins
-  //need to look up push back, it's a part of c++
-  // for coin spawn, instead of auto pos, do a: get position to find alien coord*/
 
 
 //set background
@@ -82,25 +59,21 @@ back.w = 640;
 back.h = 480;
 background = IMG_LoadTexture(sf_window->getRenderer(), "assets/background.jpeg");
 
-// Font names
-string fonts[] = {"Lato-Reg.TTF", "FFFFORWA.TTF"};
-
   }
   
  
   
   
   
+
+
   
+
   
   
 SFApp::~SFApp() {
 }
-
-/**
- * Handle all events that come from SDL.
- * These are timer or keyboard events.
- */
+//player keyboard input
 void SFApp::OnEvent(SFEvent& event) {
   SFEVENT the_event = event.GetCode();
   switch (the_event) {
@@ -145,24 +118,29 @@ void SFApp::OnEvent(SFEvent& event) {
     break;
 
   case SFEVENT_BARRICADE:
-    if ((bonus- 300)/25 > 3){ //drop a barricade if player has collected enough coins
+    if ((bonus- 300)/25 > 3){ //drop a barricade (trap) if player has collected enough coins
     BarricadeDrop();
-    bonus = bonus -50;}
+    bonus = bonus -50;} // ???????????????????????? change counter
     break;
   }
 }
+
+
+
+
+
 
 void SFApp::StartOver(){ //on start up reset counters to 0 and reset player positions
 	GO = false;
 //kill everything on screen
 for (auto a : aliens){
-a->HandleCollision();}
+	a->HandleCollision();}
 for (auto p : projectiles){
-p->HandleCollision();}
+	p->HandleCollision();}
 for (auto b : barricades){
-b->HandleCollision();}
+	b->HandleCollision();}
 for (auto c : coins){
-c->HandleCollision();}
+	c->HandleCollision();}
 player ->HandleCollision();
 
 	  int canvas_w, canvas_h;
@@ -173,6 +151,7 @@ player ->HandleCollision();
   auto player_pos = Point2(canvas_w, 88.0f);
   player->SetPosition(player_pos);
 
+  //render first ten aliens on screen
   const int number_of_aliens = 10;
   for(int i=0; i<number_of_aliens; i++) {
     // place an alien at width/number_of_aliens * i
@@ -180,27 +159,32 @@ player ->HandleCollision();
     auto pos   = Point2((canvas_w/number_of_aliens) * i, 400.0f);
     alien->SetPosition(pos);
     aliens.push_back(alien);
-
-
-
  	 }
 
-
+  health = 5;
   int val = 0;
-int alien_death;}
+  alien_death = 000000;
+}
 	
+
+
+
+
+
+
 
 void SFApp::GameOver(){
-//void to 'end' the game under certain conditions
+//method to 'end' the game under certain conditions
 	
 	cout<< "Game Over" << endl;
-	//cout<< invasion << endl;
 	
 	//render the game over screen image
     gameover  = make_shared<SFAsset>(SFASSET_GAMEOVER, sf_window);
     auto pos   = Point2(320, 240);
     gameover->SetPosition(pos);
 }
+
+
 
 
 
@@ -214,11 +198,15 @@ int SFApp::OnExecute() {
     OnEvent(sfevent);
  }
   int invasion = 0;
-  alien_death = 0;
+  alien_death = 00000;
   int bonus = 0;
   bool wall_check = false;
   bool GO = false;
+  health = 5;
 }
+
+
+
 
 
 
@@ -229,9 +217,6 @@ int SFApp::OnExecute() {
 
 void SFApp::OnUpdateWorld() {
 
-//show score
-	//font_image_score = renderText(to_string(alien_death), "Lato-Reg.TTF", 24);
-
   //boolean statements allowing player movement in multiple directions at the same time
   if(left){
     player->GoWest();
@@ -241,6 +226,7 @@ void SFApp::OnUpdateWorld() {
 	}
 
   }
+
   if (right){
     player->GoEast();
 	for( auto w : walls){
@@ -248,6 +234,7 @@ void SFApp::OnUpdateWorld() {
 		player->GoWest();}
 	}
   }
+
   if (up){
     player->GoNorth();
 	for( auto w : walls){
@@ -255,6 +242,7 @@ void SFApp::OnUpdateWorld() {
 		player->GoSouth(8.0f);}
 	}
   }
+
   if (down){
     player->GoSouth(8.0f);
 	for( auto w : walls){
@@ -266,7 +254,6 @@ void SFApp::OnUpdateWorld() {
 
 
   // Update projectile positions
-  
   for(auto p: projectiles) {
     p->GoNorth();
   }
@@ -275,14 +262,9 @@ void SFApp::OnUpdateWorld() {
     c->GoSouth(5.0f);
   }
 
-  //make walls move down the screen
-  //for (auto w: walls){
-   // w->GoSouth(3.0f);
-  //}
-
   // Update enemy positions
   for(auto a : aliens) {
-    a->GoSouth(rand()%2); //aliens moving slowly south
+    a->GoSouth(rand()%2); //aliens moving south at different speeds
   }
 
   // Detect collisions aliens with projectiles
@@ -309,6 +291,7 @@ void SFApp::OnUpdateWorld() {
       	aliens_alive++;
       	}
   }
+
   for (aliens_alive; aliens_alive< 10; aliens_alive++)
   { //if one alien has been killed, there will be less than 10 present so new aliens will be generated until the required amount are there
    	auto alien = make_shared<SFAsset>(SFASSET_ALIEN, sf_window);
@@ -324,15 +307,13 @@ void SFApp::OnUpdateWorld() {
       if(player->CollidesWith(c)) {
         c->HandleCollision();
         bonus++;}
-	cout << "Coins: " << endl;
+	cout << "Coins: " << endl; //???????????????????????
       cout << bonus << endl;
       
     }
     
 
-//detect player collisions with walls
-   for (auto w : walls)
-     { if (player->CollidesWith(w)){wall_check = true;}}
+
 //stop projectiles going through walls
    for (auto w : walls){
 	for (auto p : projectiles){
@@ -435,14 +416,9 @@ void SFApp::OnRender() {
   player->OnRender();
 
   for(auto w: walls){
-  w->OnRender();
+ 	 w->OnRender();
   }
   
-  
- 
-
-   //render game over screen when needed
-   //gameover->OnRender();
   
   for(auto p: projectiles) {
     if(p->IsAlive()) {p->OnRender();}
@@ -475,10 +451,10 @@ void SFApp::ScoreDisplay() {
 	int tmp = 0;
 
 	string dig = std::to_string(alien_death);
-	for(int i = 0; i <5 ; i++){
+	for(int i = 0; i <5 ; i++){ //score will be displayed as five digit number
 		if (dig.length() - 1 < 4- i){
 			SDL_RenderCopy(sf_window->getRenderer(), d0, NULL, &score_display);
-			tmp++;
+			tmp++; //tmp counts how many 0s will be before the score (e.g. 00045)
 		}		 
 		else if(dig.length()>0){
 			switch(dig.at(i - tmp)){
@@ -514,9 +490,9 @@ void SFApp::ScoreDisplay() {
 					break;
 			}		
 		}
-		score_display.x += 30;
+		score_display.x += 30; //digit images at 30px wide so must be +30 on x coord
 	}
-	score_display.x = 265;
+	score_display.x = 265; //reset to the first x coord of first digit ready to reloop
 }
 
 
@@ -527,9 +503,6 @@ void SFApp::BarricadeDrop() { //int y is bonus points collected
   auto x  = player->GetPosition();
   bd->SetPosition(x);
   barricades.push_back(bd);
-  //times= times - 1;
- // y = times*30;
-  //return y;
 }
 
 

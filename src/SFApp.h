@@ -11,8 +11,6 @@ using namespace std;
 #include "SFCommon.h"
 #include "SFEvent.h"
 #include "SFAsset.h"
-
-#include <SDL2/SDL_ttf.h> //sdl font library
 /**
  * Represents the StarshipFontana application.  It has responsibilities for
  * * Creating and destroying the app window
@@ -32,6 +30,8 @@ public:
   void BarricadeDrop();
   void StartOver();
   bool wall_check;
+
+
 private:
   bool up = false, down = false, left = false, right = false;
   SDL_Surface           * surface;
@@ -65,6 +65,8 @@ int bonus;
 int val;
 int alien_death;
 bool GO;
+int health;
+
 //declare digits for score display
 SDL_Texture		* d0;
 SDL_Texture		* d1;

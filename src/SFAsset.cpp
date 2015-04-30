@@ -1,12 +1,11 @@
 #include "SFAsset.h"
-#include <SDL2/SDL_ttf.h> //sdl font library
 
 int SFAsset::SFASSETID=0;
 
 SFAsset::SFAsset(SFASSETTYPE type, std::shared_ptr<SFWindow> window): type(type), sf_window(window) {
   this->id   = ++SFASSETID;
 
-  switch (type) {
+  switch (type) { //load images
   case SFASSET_PLAYER:
     sprite = IMG_LoadTexture(sf_window->getRenderer(), "assets/player.png");
     break;
@@ -132,9 +131,6 @@ void SFAsset::GoWest() {
 
 
 
-
-
-
 void SFAsset::GoEast() {
   int w, h;
   SDL_GetRendererOutputSize(sf_window->getRenderer(), &w, &h);
@@ -146,8 +142,6 @@ void SFAsset::GoEast() {
     bbox->centre = make_shared<Vector2>(c);
   }
 }
-
-
 
 
 
@@ -187,8 +181,7 @@ if(!( c.getY() <0) || (SFASSET_PLAYER != type) ) {
 if(c.getY()<0 && SFASSET_PLAYER!= type){
 	//code to see if aliens have invaded
 	if (c.getY()<=0 && SFASSET_ALIEN== type){
-		invasion= invasion + 1;
-		InvasionChecker();
+		
 	}
 	SetNotAlive();
 }	
@@ -206,35 +199,16 @@ shared_ptr<SFBoundingBox> SFAsset::GetBoundingBox() {
   return bbox;
 }
 
-//code below needed for 'deactivating' sprites after collisions
-
-
-
-
-
-
-
-//void to 'end' the game under certain conditions
-/*void SFAsset::GameOver(){
-	cout<< "Game Over" << endl;
-	cout<< invasion << endl;*/ //moved to SFApp
-	//}
-
-
-
 
 
 //method to see if 'the aliens have invaded'
 void SFAsset::InvasionChecker(){
-	//if (invasion>= 15){
-	//GameOver();}
+
 }
 
 void SFAsset::SetNotAlive() {
   type = SFASSET_DEAD;
 }
-
-
 
 
 
