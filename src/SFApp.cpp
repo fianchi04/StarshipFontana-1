@@ -45,7 +45,8 @@ health_bar.h = 30;
 health_bar.x = 10;
 health_bar.y = 40;
 
-  int val = 0;
+  val = 0;
+
 alien_death = 00000; //counter for how many aliens killed by player
   
  
@@ -173,8 +174,9 @@ player ->HandleCollision();
  	 }
 
   health = 5;
-  int val = 0;
+  val = 0;
   alien_death = 000000;
+  valb = 0;
 }
 	
 
@@ -286,6 +288,11 @@ void SFApp::OnUpdateWorld() {
   for(auto c: coins) {
     c->GoSouth(5.0f);
   }
+ 
+  //lives drop south
+  for(auto l: lives) {
+    l->GoSouth(5.0f);
+  }
 
   // Update enemy positions
   for(auto a : aliens) {
@@ -299,12 +306,22 @@ void SFApp::OnUpdateWorld() {
         p->HandleCollision();
         a->HandleCollision();
 	alien_death++;
-        //working coin spawn on alien death
-        auto coin = make_shared<SFAsset>(SFASSET_COIN, sf_window);
-  	auto gPos = a->GetPosition(); 
-  	//get the position of the alien collided with
- 	 coin->SetPosition(gPos);
- 	 coins.push_back(coin);}
+        //working reward spawn on alien death
+        valb = rand()% 16 + 1; // 1 in 15 chance of getting a health power up that will give full health back
+	if(valb == 3){
+		auto nlife = make_shared<SFAsset>(SFASSET_NLIFE, sf_window);
+  		auto gPos = a->GetPosition(); 
+  		//get the position of the alien collided with
+ 		 nlife->SetPosition(gPos);
+ 	 	lives.push_back(nlife);
+	}
+	else {
+        	auto coin = make_shared<SFAsset>(SFASSET_COIN, sf_window);
+  		auto gPos = a->GetPosition(); 
+  		//get the position of the alien collided with
+ 	 	coin->SetPosition(gPos);
+ 		 coins.push_back(coin);}
+	}
    	 }
  	}
   
@@ -337,6 +354,12 @@ void SFApp::OnUpdateWorld() {
       
     }
     
+    // Detect player picking up lives
+    for(auto l : lives) {
+      if(player->CollidesWith(l)) {
+        l->HandleCollision();
+        health = 5;}  
+    }
 
 
 //stop projectiles going through walls
@@ -458,6 +481,10 @@ void SFApp::OnRender() {
   for(auto c: coins) {
    if(c->IsAlive()){c->OnRender();}
    }
+
+  for (auto l : lives){
+   if(l->IsAlive()){l->OnRender();}
+  }
    
   for (auto b: barricades){
   if(b->IsAlive()){b-> OnRender();}

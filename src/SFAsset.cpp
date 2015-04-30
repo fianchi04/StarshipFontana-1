@@ -30,6 +30,9 @@ SFAsset::SFAsset(SFASSETTYPE type, std::shared_ptr<SFWindow> window): type(type)
   case SFASSET_START:
     sprite = IMG_LoadTexture(sf_window->getRenderer(), "assets/start.png");
     break;
+  case SFASSET_NLIFE:
+   sprite = IMG_LoadTexture(sf_window->getRenderer(), "assets/health.png");
+    break;
   }
 
   if(!sprite) {
@@ -227,7 +230,7 @@ bool SFAsset::IsAlive() {
 //collision detector
 void SFAsset::HandleCollision() 
 {
-  if(SFASSET_PROJECTILE == type || SFASSET_ALIEN == type || SFASSET_COIN == type || SFASSET_BARRICADE == type ||SFASSET_PLAYER == type) 
+  if(SFASSET_PROJECTILE == type || SFASSET_ALIEN == type || SFASSET_COIN == type || SFASSET_BARRICADE == type ||SFASSET_PLAYER == type || SFASSET_NLIFE == type) 
   {
   if(SFASSET_ALIEN == type){alien_death++;}
     SetNotAlive();

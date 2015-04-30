@@ -62,6 +62,7 @@ private:
   list<shared_ptr<SFAsset> > coins;
   list<shared_ptr<SFAsset> > walls;
   list<shared_ptr<SFAsset> > barricades;
+  list<shared_ptr<SFAsset> > lives;
 
   int fire;
 float speed;
