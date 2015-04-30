@@ -37,6 +37,13 @@ score_display.h = 60;
 score_display.x = 265;
 score_display.y = 10;
 
+//load textures for health bar
+life = IMG_LoadTexture(sf_window->getRenderer(), "assets/health.png");
+health_bar.w = 30;
+health_bar.h = 30;
+health_bar.x = 10;
+health_bar.y = 40;
+
   int val = 0;
 alien_death = 00000; //counter for how many aliens killed by player
   
@@ -191,18 +198,18 @@ void SFApp::GameOver(){
 int SFApp::OnExecute() {
   // Execute the app
   SDL_Event event;
+  bonus = 0; //counters on start up
+  health = 5;
+  alien_death = 00000;
+  wall_check = false;
+  GO = false;
+
   while (SDL_WaitEvent(&event) && is_running) {
     // if this is an update event, then handle it in SFApp,
     // otherwise punt it to the SFEventDispacher.
     SFEvent sfevent((const SDL_Event) event);
     OnEvent(sfevent);
- }
-  int invasion = 0;
-  alien_death = 00000;
-  int bonus = 0;
-  bool wall_check = false;
-  bool GO = false;
-  health = 5;
+  }
 }
 
 
@@ -258,6 +265,7 @@ void SFApp::OnUpdateWorld() {
     p->GoNorth();
   }
 
+  //coins drop south
   for(auto c: coins) {
     c->GoSouth(5.0f);
   }
@@ -352,9 +360,11 @@ void SFApp::OnUpdateWorld() {
     	if(a->CollidesWith(player)){
     	   a->HandleCollision();
     	   player->HandleCollision();
-	cout << "Game over! Player dead!"<< endl;
-	GO = true;
-	GameOver();
+	health= health -1;
+	if(health<0){
+		cout << "Game over! Player dead!"<< endl;
+		GO = true;
+		GameOver();}
 	}
     	   }
    
@@ -440,10 +450,23 @@ void SFApp::OnRender() {
   gameover->OnRender();}
 
   ScoreDisplay();
+  Healthbar();
 
   // Switch the off-screen buffer to be on-screen
   SDL_RenderPresent(sf_window->getRenderer());
 }
+
+
+
+void SFApp::Healthbar(){
+	for(int i = 0; i < health; i++){
+		SDL_RenderCopy(sf_window->getRenderer(), life, NULL, &health_bar);
+		health_bar.x+= 30;
+	}
+	health_bar.x = 10; //reset to first x coord ready for repeat
+}
+
+
 
 
 void SFApp::ScoreDisplay() {

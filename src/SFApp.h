@@ -30,6 +30,7 @@ public:
   void BarricadeDrop();
   void StartOver();
   bool wall_check;
+  void Healthbar();
 
 
 private:
@@ -40,6 +41,8 @@ private:
   SDL_Rect back;
   //score display
   SDL_Rect 		score_display;
+  //health display
+  SDL_Rect		health_bar;
 
 //score counter
   SDL_Texture		* font_image_score;
@@ -78,6 +81,8 @@ SDL_Texture		* d6;
 SDL_Texture		* d7;
 SDL_Texture		* d8;
 SDL_Texture		* d9;
+
+SDL_Texture		* life;
 
 
 
