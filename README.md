@@ -17,14 +17,15 @@ You will have to have the SDL development libraries installed on
 your system.  The easiest way to compile is to use a command-line
 
 ```bash
-$ g++ -c src/*.cpp
-$ g++ -o starship *.o -lSDL2 -lSDL2_image
+go to folder containing StarshipFontana-1
+$ g++ -g -c src/*.cpp -std=c++11
+$ g++ -o StarshipFontana *.o -l SDL2 -l SDL2_image
 ```
 
 which will produce an executable file called "starship" in the
 top-level directory.  To execute this file do the following
 
-`$ ./starship`
+`$ ./StarshipFontana`
  
 from the top-level directory.  The game will expect to find the
 `assets` directory under its current working directory.
